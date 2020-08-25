@@ -1,4 +1,10 @@
-# portfolio
+# portfolio made in vue
+
+[Design Source]()
+
+[heroku link]()
+
+![Demo](.gif)
 
 ## Project setup
 ```
