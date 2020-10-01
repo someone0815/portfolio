@@ -4,6 +4,9 @@
       <!-- <div class="side"></div> -->
       <div class="mid">
         <div class="logo-holder">
+          <button class="bar">
+            <fa fas="bars"></fa>
+          </button>
           <a href="fb.com">
             <img
               class="logo"
@@ -68,11 +71,122 @@ export default {
     MainView,
     SearchBox,
   },
+  data: () => ({
+    size: 'xl',
+  }),
+  mounted() {
+    window.onresize = this.lodash.debounce(this.detectSize, 50);
+    this.detectSize();
+  },
+  methods: {
+    detectSize() {
+      const width = window.innerWidth;
+      let result = {};
+      switch (true) {
+        case width < 425:
+          result = {
+            size: 'mobile',
+            sizeint: 425,
+            range: [0, 425],
+            includes: ['mobile'],
+          };
+          break;
+        case width < 680:
+          result = {
+            size: 's',
+            sizeint: 680,
+            range: [426, 680],
+            includes: ['mobile', 's'],
+          };
+          break;
+        case width < 1024:
+          result = {
+            size: 'm',
+            sizeint: 1024,
+            range: [680, 1024],
+            includes: ['mobile', 's', 'm'],
+          };
+          break;
+        case width < 1300:
+          result = {
+            size: 'l',
+            sizeint: 1300,
+            range: [1025, 1300],
+            includes: ['mobile', 's', 'm', 'l'],
+          };
+          break;
+        case width < 1600:
+          result = {
+            size: 'xl',
+            sizeint: 1600,
+            range: [1301, 1600],
+            includes: ['mobile', 's', 'm', 'l', 'xl'],
+          };
+          break;
+        default:
+          result = {
+            size: 'xl',
+            sizeint: 1600,
+            range: [1301, 1600],
+            includes: ['mobile', 's', 'm', 'l', 'xl'],
+          };
+      }
+      this.size = {
+        width: width,
+        size: result.size,
+        sizeint: result.sizeint,
+        range: result.range,
+        includes: result.includes,
+      };
+    },
+  },
 };
 </script>
 
 <style scoped>
+@media screen and (max-width: 1023px) {
+  .bar {
+    display: grid !important;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .lang {
+    display: none !important;
+  }
+  .mid {
+    gap: 1rem;
+  }
+  .links {
+    display: none !important;
+  }
+  .search-holder {
+    margin: 0rem;
+    grid-area: search;
+  }
+  .logo-holder > a {
+    display: none;
+  }
+}
+@media screen and (max-width: 426px) {
+  .mid {
+    grid-template: 'logo search search' !important;
+  }
+}
+
+.bar > i {
+  font-size: 1.5rem;
+}
+.bar {
+  padding: 1rem;
+  height: 100%;
+  background: 0;
+  border: 0;
+  display: none;
+  align-content: center;
+}
 /* LANGUAGE */
+
 .lang {
   display: grid;
   grid-auto-flow: column;
@@ -124,6 +238,18 @@ input[type='radio']:checked + label > img {
     box-sizing: border-box;
   }
 }
+
+@media screen and (max-width: 1023px) {
+  .links {
+    grid-template-columns: max-content !important;
+    justify-self: flex-end !important;
+    justify-content: end;
+  }
+  .buttons {
+    display: none !important;
+  }
+}
+
 .buttons > button:hover {
   color: gray;
 }
@@ -150,6 +276,8 @@ input[type='radio']:checked + label > img {
 
 .logo-holder {
   justify-self: flex-start;
+  display: grid;
+  grid-auto-flow: column;
 }
 
 .splash {
@@ -165,7 +293,7 @@ input[type='radio']:checked + label > img {
 #header {
   display: grid;
   grid-template: 'main ';
-  grid-template-columns: minmax(600px, 1620px);
+  grid-template-columns: minmax(100px, 1620px);
   place-content: center;
   position: fixed;
   width: 100%;
@@ -175,11 +303,11 @@ input[type='radio']:checked + label > img {
   z-index: 1000;
   top: 0;
 }
-div.mid {
+.mid {
   place-items: center;
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template: 'logo search links' / 1fr auto 1fr;
 }
 .links {
   gap: 1rem;
@@ -208,6 +336,10 @@ div.mid {
   /* --bg: #fff; */
   --bg: #ffffff;
   --bg-root: #fff;
+}
+
+img {
+  display: block;
 }
 #app {
   /* font-family: 'Roboto', sans-serif; */

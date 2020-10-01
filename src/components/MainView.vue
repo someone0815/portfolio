@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="sider">
+    <div class="sider sideoptions">
       <div class="holder" id="myHeader">
         <div class="item">
           <!-- <h4>Projects</h4> -->
@@ -116,6 +116,50 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 680px) {
+  .project-card {
+    grid-template:
+      'thumb'
+      'title'
+      'time'
+      'desc'
+      'link'
+      'pins' !important;
+    grid-template-columns: auto !important;
+    grid-template-rows: 1fr auto auto auto auto !important;
+    height: auto !important;
+    gap: 0.5rem !important;
+    max-width: 400px;
+    margin: auto;
+  }
+  .project-card h3 {
+    -webkit-line-clamp: 4 !important;
+  }
+}
+
+.sidebar,
+.sideoptions {
+  transition: width 0.3s;
+}
+@media screen and (max-width: 1300px) {
+  .main-view {
+    grid-template: 'siderbar main main';
+  }
+  .sideoptions {
+    display: none;
+  }
+}
+@media screen and (max-width: 1023px) {
+  .main-view {
+    grid-template: 'main main main' !important;
+    grid-template-columns: 1fr !important;
+    width: auto !important;
+  }
+  .sidebar {
+    display: none;
+  }
+}
+
 /* width */
 
 .holder {
@@ -548,7 +592,7 @@ img {
   z-index: 100;
   box-shadow: 0 2px 49px -30px rgba(0, 0, 0, 0.25) !important;
 }
-div.main {
+div > .main {
   max-width: 1000px;
   margin: auto;
   padding: 2rem;
